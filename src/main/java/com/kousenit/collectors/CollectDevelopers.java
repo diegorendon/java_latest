@@ -1,16 +1,16 @@
 package com.kousenit.collectors;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CollectDevelopers {
 
-    public static List<Developer> convertNamesToDevelopers(List<String> names) {
+    public static Set<Developer> convertNamesToDevelopers(List<String> names) {
         return names.parallelStream()
-                .map(name -> new Developer(name))
+                //.map(name -> new Developer(name))
+                .map(Developer::new)
                 .peek(x -> System.out.println(x + " on thread " + Thread.currentThread().getName()))
-                .collect(Collectors.toList());  // collect respects ordering of the input list
+                .collect(Collectors.toCollection(LinkedHashSet::new));  // collect respects ordering of the input list
     }
 
     public static List<Developer> convertNamesToDevelopersNoOrder(List<String> names) {
